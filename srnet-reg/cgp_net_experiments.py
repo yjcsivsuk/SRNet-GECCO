@@ -16,7 +16,7 @@ from neural_networks.nn_models import NN_MAP
 
 
 # where is the dataset
-data_dir, xlabel = '/home/luoyuanzhen/STORAGE/dataset/pmlb/', 'F'
+data_dir, xlabel = '/Users/lihaoyang/dataset/', 'F'
 # what logs and imgs directory you want to save the result
 log_dir, img_dir = 'cgpnet_result/if_logs/', 'cgpnet_result/if_imgs/'
 

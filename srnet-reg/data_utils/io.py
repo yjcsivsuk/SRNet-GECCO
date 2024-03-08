@@ -82,11 +82,11 @@ def save_nn_model(nn, savepath, save_type='model'):
 
 def load_nn_model(nnpath, load_type='model', nn=None):
     if load_type == 'model':
-        nn = torch.load(nnpath)
+        nn = torch.load(nnpath, map_location=torch.device('cpu'))
     elif load_type == 'dict':
         if not nn:
             raise ValueError(f'karg nn should not be None when you specify load_type as dict')
-        nn.load_state_dict(torch.load(nnpath))
+        nn.load_state_dict(torch.load(nnpath, map_location=torch.device('cpu')))
     else:
         raise ValueError(f'karg load_type should be one of model or dict, not {load_type}.')
     nn.eval()
