@@ -20,7 +20,7 @@ RESULT_PREFIX = 'result/'
 
 parser = argparse.ArgumentParser("SRNet for neural network explaining task")
 parser.add_argument('--start_trial', type=int, default=1)
-parser.add_argument('--run_trials', type=int, default=30)
+parser.add_argument('--run_trials', type=int, default=1)
 parser.add_argument('--stat', action='store_true', default=True)
 parser.add_argument('--n_top', type=int, default=20)
 parser.add_argument('--io', action='store_true', default=False)
@@ -28,7 +28,8 @@ parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], default='cpu'
 args = parser.parse_args()
 
 
-clas_datasets = ['adult', 'agaricus_lepiota', 'analcatdata_aids', 'breast', 'car']
+# clas_datasets = ['adult', 'agaricus_lepiota', 'analcatdata_aids', 'breast', 'car']
+clas_datasets = ['adult']
 
 nn_dirs = list(['{}_nn'.format(dataset) for dataset in clas_datasets])
 nn_names = clas_datasets

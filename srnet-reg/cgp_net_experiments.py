@@ -52,7 +52,7 @@ all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
              'feynman0', 'feynman1', 'feynman2', 'feynman3', 'feynman4', 'feynman5']
 
 # how many times you want to run for each dataset
-run_times = 30
+run_times = 1
 
 
 def _train_process(controller, trainer, data_list, msg, valid_data_list):
