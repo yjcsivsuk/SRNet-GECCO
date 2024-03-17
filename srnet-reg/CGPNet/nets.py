@@ -12,7 +12,7 @@ net_cgp_dims = {
     OneExpCGPLayer.__name__: (1, 1)
 }
 
-
+# 创建CGP符号层
 def _create_cgp_layer(clas_cgp, net_params, idx_neurons, genes=None, ephs=None):
     dims = net_cgp_dims[clas_cgp.__name__]
     n_inputs = dims[0] if dims[0] else net_params.neurons[idx_neurons-1]
@@ -152,7 +152,7 @@ class OneVectorCGPNet(BaseCGPNet):
             nn_layers.append(n.clone())
         return OneVectorCGPNet(self.net_params, cgp_layers, nn_layers)
 
-
+# 这块师兄说不用看
 class LinearOutputCGPNet(OneVectorCGPNet):
     def __init__(self, net_params, cgp_layers=None, nn_layers=None, last_nn_layer=None, clas_cgp=OneExpOneOutCGPLayer):
         # knowing that len(nn_layers) is equal to len(cgp_layers)

@@ -66,9 +66,9 @@ def _train_process(controller, trainer, data_list, msg, valid_data_list):
 
     return elites, convf, (end_time - start_time).seconds / 60
 
-
+# 主函数运行部分
 def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xlabel=None, run_n_epoch=30):
-    trainer = clas_optim_map[evo_params['optim']](end_to_end=evo_params['end_to_end'])
+    trainer = clas_optim_map[evo_params['optim']](end_to_end=evo_params['end_to_end'])  # 创建一个训练器
     srnn_fs_list = []
     for fname in all_names:
         var_names = vars_map[fname][0] if fname in vars_map else None
@@ -77,6 +77,7 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
         nn_dir = f'{data_dir}{fname}_nn/'
         nn_data_list = io.get_nn_datalist(nn_dir)
 
+        # 生成验证集数据
         valid_data_list = None
         if evo_params['validation']:
             # generate extrapolation data for model selection
@@ -88,9 +89,11 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
             valid_data_list = [valid_input] + list(nn(valid_input))
 
         clas_net, clas_cgp = clas_net_map[evo_params['clas_net']], clas_cgp_map[evo_params['clas_cgp']]
+        # 初始化一个Evolution控制器，用于管理实验的进化过程
         controller = Evolution(evo_params=evo_params,
                                clas_net=clas_net,
                                clas_cgp=clas_cgp)
+        # 使用Parallel来并行执行多个训练过程。每个训练过程由_train_process函数执行
         results = Parallel(n_jobs=run_n_epoch)(
             delayed(_train_process)(controller,
                                     trainer,
@@ -100,17 +103,18 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
                                     )
             for epoch in range(run_n_epoch))
 
+        # 对每个训练过程的结果进行收集和整理，包括最优个体的适应度、训练时间和收敛性
         srnn_fs, srnn_ts = [], []  # for log
         srnn_cfs = []  # for trend draw
         elites = []  # All top10 best elites from each runtimes. For log
         for result in results:
             process_elites, convf, time = result
-            srnn_fs.append(process_elites[0].fitness)
-            srnn_ts.append(time)
-            srnn_cfs.append(convf)
-            elites += process_elites[:min(10, len(process_elites))]
+            srnn_fs.append(process_elites[0].fitness)  # 最优个体的适应度
+            srnn_ts.append(time)  # 训练时间
+            srnn_cfs.append(convf)  # 收敛性
+            elites += process_elites[:min(10, len(process_elites))]  # 选10个最优个体
 
-        elites.sort(key=lambda x: x.fitness)
+        elites.sort(key=lambda x: x.fitness)  # top10的最优个体按照适应度排序
 
         srnn_fs_list.append(srnn_fs)
 
@@ -132,10 +136,12 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
         for num, result in enumerate(elite_results):
             log_dict[f'elite[{num}]'] = result
 
+        # 将实验结果保存为JSON格式的日志文件
         with open(f'{log_dir}{fname}_30log.json', 'w') as f:
             json.dump(log_dict, f, indent=4)
 
         save_cfs(f'{log_dir}{fname}_30cfs', srnn_cfs)
+        # 绘制每个数据集的适应度趋势图和所有数据集的适应度箱线图
         draw_f_trend(f'{img_dir}{fname}_trend.pdf', evo_params['n_generation'], [srnn_cfs], legends=['srnn'], title=fname)
 
     draw.draw_fitness_box(f'{img_dir}{xlabel}_box_fit.pdf', srnn_fs_list, xlabel=xlabel)
