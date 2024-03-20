@@ -54,7 +54,7 @@ all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
 # how many times you want to run for each dataset
 run_times = 1
 
-
+# 训练过程
 def _train_process(controller, trainer, data_list, msg, valid_data_list):
     print(msg)
     start_time = datetime.datetime.now()

@@ -66,7 +66,7 @@ class BaseCGP:
                 outputs.append(node.value)
 
         return torch.stack(outputs, dim=1)
-
+    # 找出给定神经网络（或CGP图）中的所有活跃路径。活跃路径是指从输入节点到输出节点的有效路径，其中每个内部节点都至少有一个活跃的输入。
     def _get_active_paths(self):
         stack = []
         active_path, active_paths = [], []
@@ -92,7 +92,7 @@ class BaseCGP:
             active_paths.append(list(reversed(active_path)))
 
         return active_paths
-
+    # 获取活跃路径上的基因型的id
     def get_active_genes_idx(self):
         """ Return all active genes. """
         active_genes = []
@@ -143,6 +143,7 @@ class BaseCGP:
 
         return results
 
+    # 通过变异操作生成后代
     def generate_clas_offspring(self, gidxs, mutant_genes, cls):
         genes = self.genes[:]
         for gidx, mutant in zip(gidxs, mutant_genes):

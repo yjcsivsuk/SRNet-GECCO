@@ -46,12 +46,14 @@ class CGPFactory:
         self.levels_back = params.levels_back
         self.function_set = params.function_set
         self.n_eph = params.n_eph
-        self.n_f_node = self.n_rows * self.n_cols
-        self.n_f = len(self.function_set)
+        self.n_f_node = self.n_rows * self.n_cols  # CGP图中一共有多少个结点
+        self.n_f = len(self.function_set)  # 运算符集合中运算符的数量
 
+    # 将结点的基因型进行编码
     def create_genes_and_bounds(self):
         genes = []
         uppers, lowers = [], []
+        # 和tengp相比，多了个参数n_eph，表示神经网络的层数
         for i in range(self.n_inputs + self.n_eph, self.n_inputs + self.n_eph + self.n_f_node):
             # first bit is node function
             f_gene = random.randint(0, self.n_f - 1)
@@ -64,7 +66,7 @@ class CGPFactory:
             col = (i - self.n_inputs - self.n_eph) // self.n_rows
             up = self.n_inputs + self.n_eph + col * self.n_rows - 1
             low = max(0, up - self.levels_back)
-            for i_arity in range(self.max_arity):
+            for _ in range(self.max_arity):
                 lowers.append(low)
                 uppers.append(up)
                 in_gene = random.randint(low, up)
@@ -92,7 +94,7 @@ class CGPFactory:
             col = (i - self.n_inputs - self.n_eph) // self.n_rows
             up = self.n_inputs + self.n_eph + col * self.n_rows - 1
             low = max(0, up - self.levels_back)
-            for i_arity in range(self.max_arity):
+            for _ in range(self.max_arity):
                 lowers.append(low)
                 uppers.append(up)
             f_pos += self.max_arity + 1
@@ -105,6 +107,7 @@ class CGPFactory:
 
         return lowers, uppers
 
+    # 通过基因型，解码成CGP图中的结点
     def create_nodes(self, genes):
         nodes = []
         for i in range(self.n_inputs + self.n_eph):

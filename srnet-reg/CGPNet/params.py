@@ -15,8 +15,8 @@ class CGPParameters:
         self.n_outputs = n_outputs
         self.n_rows = n_rows
         self.n_cols = n_cols
-        self.levels_back = levels_back
-        self.n_eph = n_eph
+        self.levels_back = levels_back  # CGP图中的结点最多能往回连几列
+        self.n_eph = n_eph  # 记录这是第几个符号层
         self.function_set = []
         self.max_arity = 1
         for str_fun in function_set:
@@ -24,7 +24,7 @@ class CGPParameters:
                 raise ValueError("%s function is not in 'function_map' in functions.py." % str_fun)
             self.max_arity = max(function_map[str_fun].arity, self.max_arity)
             self.function_set.append(function_map[str_fun])
-
+        # 如果不指定的话，就默认CGP图中所有结点都可以任意连接
         if self.levels_back is None:
             self.levels_back = n_rows * n_cols + n_inputs + 1
 
