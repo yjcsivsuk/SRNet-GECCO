@@ -208,6 +208,7 @@ class Evolution:
         return loss.item()
 
     @staticmethod
+    # 计算加权适应度值
     def _calculate_weighted_fitness(fitness_list):
         fitness = 0.0
         if len(fitness_list) == 1:
@@ -245,11 +246,13 @@ class Evolution:
 
     def _apply_evolution_strategy(self, population, trainer, data_list, valid_data_list):
         parent = None
+        # 根据fitness选择，就在种群中选择fitness最小的作为父代
         if self.evo_strategy == 'fitness_select':
             for indiv in population:
                 trainer.train(net=indiv, data_list=data_list)
             self._evaluate_fitness(population, data_list, valid_data_list)
             parent = min(population, key=lambda x: x.fitness)
+        # 对应于论文中的选择策略，逐层挑选
         elif self.evo_strategy == 'chromosome_select':
             cgp_layers, nn_layers = [], []
             num_chrom = len(population[0].cgp_layers)

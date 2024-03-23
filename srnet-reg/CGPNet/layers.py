@@ -38,7 +38,7 @@ class BaseCGP:
         self.active_nodes = set(reduce(lambda l1, l2: l1 + l2, self.active_paths))
 
         if ephs is None:
-            self.ephs = torch.normal(mean=0., std=1., size=(self.n_eph,))
+            self.ephs = torch.normal(mean=0., std=1., size=(self.n_eph,))  # ephs是一个从正态分布中随机采样的张量，size是（1，）。
         else:
             self.ephs = ephs
 
@@ -163,7 +163,7 @@ class OneExpOneOutCGPLayer(BaseCGP):
     def clone(self):
         return OneExpOneOutCGPLayer(self.params, self.genes, self.ephs)
 
-
+# 以下三个层都没用到，应该不用看了
 class MulExpCGPLayer(BaseCGP):
     """overwrite the __call__ method, apply self.n_outputs different functions to x's each dimension"""
 

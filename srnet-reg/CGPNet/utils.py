@@ -135,7 +135,7 @@ def timeout_simplify(expr):
     sim_str = sp.simplify(expr)
     return sim_str
 
-
+# 生成网络层的公式 h_i = f_i(h_{i-1}) * w + b
 def pretty_net_exprs(net, var_names=None):
     """Forward funcs_list and w_list, get final expressions w.r.t var_names"""
     net_input = net.neurons[0]
@@ -187,16 +187,16 @@ def pretty_net_exprs(net, var_names=None):
 
     return exprs.tolist()
 
-
+# 线性层表达式y=w*x+b，其中w,x,b都是向量。测试用例见test_func.py中的test_sp()方法
 def linear_layer_expression(n_input, w, b=None):
     inputs = [f'x{i}' for i in range(n_input)] if n_input > 1 else ['x']
     if b is not None:
         expr = sp.Matrix(inputs).T * sp.Matrix(w) + b.reshape(1, -1)  # 1, n_var
     else:
         expr = sp.Matrix(inputs).T * sp.Matrix(w)
-    return expr.tolist()[0]
+    return expr.tolist()[0]  # expr是一个Matrix，调用tolist()方法后是一个列表，再[0]取第一个元素得到表达式
 
-
+# w是权重矩阵，这个方法通过一些矩阵运算来获取层的表达式
 def layer_expression(inputs, w, funcs):
     expr = inputs * sp.Matrix(w)  # 1, n_output
 

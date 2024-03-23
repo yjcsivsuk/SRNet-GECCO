@@ -16,7 +16,7 @@ class CGPParameters:
         self.n_rows = n_rows
         self.n_cols = n_cols
         self.levels_back = levels_back  # CGP图中的结点最多能往回连几列
-        self.n_eph = n_eph  # 记录这是第几个符号层
+        self.n_eph = n_eph  # 添加的常数结点
         self.function_set = []
         self.max_arity = 1
         for str_fun in function_set:
