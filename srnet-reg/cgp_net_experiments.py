@@ -48,8 +48,9 @@ evo_params = {
 }
 
 # name of datasets
-all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
-             'feynman0', 'feynman1', 'feynman2', 'feynman3', 'feynman4', 'feynman5']
+# all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
+#              'feynman0', 'feynman1', 'feynman2', 'feynman3', 'feynman4', 'feynman5']
+all_names = ['kkk0']
 
 # how many times you want to run for each dataset
 run_times = 1
