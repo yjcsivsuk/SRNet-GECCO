@@ -36,7 +36,7 @@ evo_params = {
     'add_bias': True,  # do not change
 
     'n_population': 200,  # population size in each generation
-    'n_generation': 5000,  # number of evoled generation
+    'n_generation': 100,  # number of evoled generation
     'prob': 0.4,  # point mutation prob
     'verbose': 10,  # 0 would not be reported
     'stop_fitness': 1e-5,
