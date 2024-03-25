@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/Users/lihaoyang/GitHub/SRNet-GECCO/srnet-reg")
+
 import sympy as sp
 import torch
 
@@ -32,5 +35,5 @@ def test_sp():
 
 
 if __name__ == '__main__':
-    # test_function()
-    test_sp()
+    # test_function()  # if-then-else测试结果有问题
+    test_sp()  # 测试无误

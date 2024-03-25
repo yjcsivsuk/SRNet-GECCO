@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/Users/lihaoyang/GitHub/SRNet-GECCO/srnet-reg")
+
 import copy
 
 import torch
@@ -30,9 +33,9 @@ def train(net, data_list, end_to_end, title, which):
 
     print(evaluate(net, data_list))
 
-
+# 测试结果有问题
 def test_train_end_to_end():
-    data_dir = '/home/luoyuanzhen/Datasets/regression/kkk/kkk0_nn/'
+    data_dir = '/Users/lihaoyang/dataset/kkk0_nn/'
     data_list = io.get_nn_datalist(data_dir)
 
     neurons = [data.shape[1] for data in data_list]
@@ -41,24 +44,24 @@ def test_train_end_to_end():
                                26,
                                default_functions,
                                1)
-    net = clas_net_map['OneLinearCGPNet'](net_params)
-    print(net.get_expressions())
+    net = clas_net_map['OneVectorCGPNet'](net_params)
+    print(net.get_cgp_expressions())
 
     same_nets = []
     for _ in range(3):
         same_nets.append(copy.deepcopy(net))
 
     end_to_end = False
-    train(net, data_list, end_to_end, f'lbfgs end-to-end:{end_to_end}', 'lbfgs')
-    train(same_nets[0], data_list, end_to_end, f'sgd end-to-end:{end_to_end}', 'sgd')
+    train(net, data_list, end_to_end, f'LBFGS end-to-end:{end_to_end}', 'LBFGS')
+    train(same_nets[0], data_list, end_to_end, f'SGD end-to-end:{end_to_end}', 'SGD')
 
     end_to_end = True
-    train(same_nets[1], data_list, end_to_end, f'lbfgs end-to-end:{end_to_end}', 'lbfgs')
-    train(same_nets[2], data_list, end_to_end, f'sgd end-to-end:{end_to_end}', 'sgd')
+    train(same_nets[1], data_list, end_to_end, f'LBFGS end-to-end:{end_to_end}', 'LBFGS')
+    train(same_nets[2], data_list, end_to_end, f'SGD end-to-end:{end_to_end}', 'SGD')
 
-
+# 测试结果有问题
 def test_grad():
-    data_dir = '/home/luoyuanzhen/Datasets/regression/kkk/kkk0_nn/'
+    data_dir = '/Users/lihaoyang/dataset/kkk0_nn/'
     data_list = io.get_nn_datalist(data_dir)
 
     neurons = [data.shape[1] for data in data_list]
@@ -67,8 +70,8 @@ def test_grad():
                                26,
                                default_functions,
                                1)
-    net = clas_net_map['OneLinearCGPNet'](net_params)
-    print(net.get_expressions())
+    net = clas_net_map['OneVectorCGPNet'](net_params)
+    print(net.get_cgp_expressions())
 
     x = torch.tensor([2.])
     w = Parameter(torch.tensor([3.]))
@@ -93,7 +96,7 @@ def test_grad():
         print(loss.grad_fn, w.grad)
     print('')
 
-
+# 测试结果没问题
 def test_torch_gradient():
     weight = Parameter(torch.tensor([[1., 2., 3.], [1., 2., 3.]]))
     x = torch.tensor([[1., 1.],

@@ -1,10 +1,13 @@
+import sys
+sys.path.append("/Users/lihaoyang/GitHub/SRNet-GECCO/srnet-reg")
+
 import sympy as sp
 import torch
 from torch import nn
 
 from CGPNet.functions import default_functions
 from CGPNet.methods import NewtonTrainer
-from CGPNet.nets import MulExpCGPLayer, OneLinearCGPNet, OneExpCGPLayer, OneVectorCGPNet
+from CGPNet.nets import MulExpCGPLayer, OneExpCGPLayer, OneVectorCGPNet, OneExpOneOutCGPLayer
 from CGPNet.params import CGPParameters, NetParameters
 from CGPNet.utils import pretty_net_exprs
 from data_utils import io
@@ -12,7 +15,7 @@ from data_utils import io
 
 def _print_net(net, x):
     print('###expressions:')
-    print(net.get_expressions())
+    print(net.get_cgp_expressions())
 
     results = net(x)
     print('###results:')
@@ -58,8 +61,8 @@ def test_net():
                                26,
                                default_functions,
                                1)
-    net = OneLinearCGPNet(net_params)
-    print(net.get_expressions())
+    net = OneVectorCGPNet(net_params)
+    print(net.get_cgp_expressions())
     print(net.get_ws())
     results = net(x)
     [print(result, result.shape) for result in results]
@@ -78,7 +81,7 @@ def test_layer_torch():
     print(exprs)
     print('CGP:', cgp_layer(x))
 
-
+# 测试结果有问题
 def test_net_torch():
 
     x = torch.tensor([[0, 0, 1, 1], [1, 0, 0, 1], [0, 1, 0, 1]], dtype=torch.float)  # 3, 3
@@ -87,11 +90,11 @@ def test_net_torch():
                                26,
                                default_functions,
                                1)
-    net = OneLinearCGPNet(net_params)
+    net = OneVectorCGPNet(net_params)
     _print_net(net, x)
 
     print('###encode it')
-    encoded_net = OneLinearCGPNet.encode_net(net_params,
+    encoded_net = OneVectorCGPNet.encode_net(net_params,
                                              genes_list=net.get_genes(),
                                              ephs_list=net.get_ephs(),
                                              w_list=net.get_ws(),
@@ -106,7 +109,7 @@ def test_OneLinearCGPNet_OneExp():
                                26,
                                default_functions,
                                1)
-    net = OneLinearCGPNet(net_params, clas_cgp=OneExpCGPLayer)
+    net = OneVectorCGPNet(net_params, clas_cgp=OneExpOneOutCGPLayer)
     _print_net(net, x)
 
 
@@ -143,7 +146,7 @@ def get_inverse_hessian(loss, weight):
 
 
 def test_parameters():
-    data_list = io.get_nn_datalist('../../dataset/kkk0_nn/')
+    data_list = io.get_nn_datalist('srnet-reg/dataset/kkk0_nn/')
     neurons = [data.shape[1] for data in data_list]
 
     net_params = NetParameters(neurons,
@@ -188,19 +191,18 @@ def test():
     x = torch.tensor([1, 2, 3], dtype=torch.float)
     print(x)
 
-    print(x*wi)
-    print(wi*x)
+    # print(x*wi)
+    # print(wi*x)
 
     print(wi + 0.5)
     print(torch.sqrt(wi))
 
 
 if __name__ == '__main__':
-    # for _ in range(5):
     # test_net()
     # test_layer_torch()
-    # test_net_torch()
+    test_net_torch()
     # test_net_expression()
     # test_OneLinearCGPNet_OneExp()
     # test_parameters()
-    test()
+    # test()
