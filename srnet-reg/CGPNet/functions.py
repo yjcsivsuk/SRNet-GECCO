@@ -164,10 +164,9 @@ function_map = {
     'ln': Ln(),
     'sin': Sin(),
     'cos': Cos(),
-    'tan': Tan(),
-    'if_then_else': ITF()
+    'tan': Tan()
 }
 
-default_functions = ['add', 'sub', 'mul', 'div', 'sqrt', 'sqre', 'ln', 'sin', 'cos', 'tan', 'if_then_else']
+default_functions = ['add', 'sub', 'mul', 'div', 'sqrt', 'sqre', 'ln', 'sin', 'cos', 'tan']
 
 

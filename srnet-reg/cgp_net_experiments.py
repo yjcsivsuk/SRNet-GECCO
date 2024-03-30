@@ -28,15 +28,15 @@ evo_params = {
     'clas_net': 'OneVectorCGPNet',  # do not change
     'clas_cgp': 'OneExpOneOutCGPLayer',  # do not change
     'optim': 'Newton',  # Newton-Rapson optimization method do not change
-    'n_rows': 5,  # rows of function nodes in each CGP
-    'n_cols': 5,  # cols of function nodes in each CGP
+    'n_rows': 10,  # rows of function nodes in each CGP
+    'n_cols': 10,  # cols of function nodes in each CGP
     'levels_back': None,
     'function_set': default_functions,
     'n_eph': 1,  # number of constant added in each CGP
     'add_bias': True,  # do not change
 
     'n_population': 200,  # population size in each generation
-    'n_generation': 100,  # number of evoled generation
+    'n_generation': 5000,  # number of evoled generation
     'prob': 0.4,  # point mutation prob
     'verbose': 10,  # 0 would not be reported
     'stop_fitness': 1e-5,
@@ -48,12 +48,11 @@ evo_params = {
 }
 
 # name of datasets
-# all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
-#              'feynman0', 'feynman1', 'feynman2', 'feynman3', 'feynman4', 'feynman5']
-all_names = ['kkk0']
+all_names = ['kkk0', 'kkk1', 'kkk2', 'kkk3', 'kkk4', 'kkk5',
+             'feynman0', 'feynman1', 'feynman2', 'feynman3', 'feynman4', 'feynman5']
 
 # how many times you want to run for each dataset
-run_times = 1
+run_times = 30
 
 # 训练过程
 def _train_process(controller, trainer, data_list, msg, valid_data_list):
@@ -95,14 +94,14 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
                                clas_net=clas_net,
                                clas_cgp=clas_cgp)
         # 使用Parallel来并行执行多个训练过程。每个训练过程由_train_process函数执行
-        results = Parallel(n_jobs=run_n_epoch)(
+        results = Parallel(n_jobs=5)(
             delayed(_train_process)(controller,
                                     trainer,
                                     nn_data_list,
                                     f'{fname}-{epoch} start:\n',
                                     valid_data_list
                                     )
-            for epoch in range(run_n_epoch))
+            for epoch in range(5))
 
         # 对每个训练过程的结果进行收集和整理，包括最优个体的适应度、训练时间和收敛性
         srnn_fs, srnn_ts = [], []  # for log
@@ -142,9 +141,8 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
             json.dump(log_dict, f, indent=4)
 
         save_cfs(f'{log_dir}{fname}_30cfs', srnn_cfs)
-        # 绘制每个数据集的适应度趋势图和所有数据集的适应度箱线图
-        draw_f_trend(f'{img_dir}{fname}_trend.pdf', evo_params['n_generation'], [srnn_cfs], legends=['srnn'], title=fname)
-
+        # 绘制每个数据集的适应度趋势图和所有数据集的适应度盒图
+        draw_f_trend(f'{img_dir}{fname}_trend.pdf', evo_params['n_generation'], [srnn_cfs], legends=['srnn'], title=fname)        
     draw.draw_fitness_box(f'{img_dir}{xlabel}_box_fit.pdf', srnn_fs_list, xlabel=xlabel)
 
 

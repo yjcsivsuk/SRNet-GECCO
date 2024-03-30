@@ -35,7 +35,7 @@ def draw_range_line(x,
         plt.legend(loc=2, markerscale=20, bbox_to_anchor=(1.05, 1))
     if savefile:
         plt.savefig(savefile, dpi=600, bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 
 def draw_error_bar_line(x,
