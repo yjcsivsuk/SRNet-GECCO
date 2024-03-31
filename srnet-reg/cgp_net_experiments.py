@@ -2,7 +2,6 @@
 import datetime
 import json
 
-import joblib
 import numpy as np
 from joblib import Parallel, delayed
 
@@ -94,14 +93,14 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
                                clas_net=clas_net,
                                clas_cgp=clas_cgp)
         # 使用Parallel来并行执行多个训练过程。每个训练过程由_train_process函数执行
-        results = Parallel(n_jobs=5)(
+        results = Parallel(n_jobs=4)(
             delayed(_train_process)(controller,
                                     trainer,
                                     nn_data_list,
                                     f'{fname}-{epoch} start:\n',
                                     valid_data_list
                                     )
-            for epoch in range(5))
+            for epoch in range(run_n_epoch))
 
         # 对每个训练过程的结果进行收集和整理，包括最优个体的适应度、训练时间和收敛性
         srnn_fs, srnn_ts = [], []  # for log
@@ -129,7 +128,7 @@ def run_srnet_experiments(evo_params, all_names, data_dir, log_dir, img_dir, xla
             'srnn_fitness': srnn_fs,
         }
 
-        elite_results = Parallel(n_jobs=joblib.cpu_count())(
+        elite_results = Parallel(n_jobs=4)(
             delayed(individual_to_dict)(elite, var_names)
             for elite in elites)
 
