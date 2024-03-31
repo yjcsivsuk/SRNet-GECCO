@@ -53,7 +53,7 @@ class CGPFactory:
     def create_genes_and_bounds(self):
         genes = []
         uppers, lowers = [], []
-        # 和tengp相比，多了个参数n_eph，表示神经网络的层数
+        # 和tengp相比，多了个参数n_eph，表示新增了一个常数结点
         for i in range(self.n_inputs + self.n_eph, self.n_inputs + self.n_eph + self.n_f_node):
             # first bit is node function
             f_gene = random.randint(0, self.n_f - 1)

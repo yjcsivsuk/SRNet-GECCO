@@ -27,8 +27,8 @@ evo_params = {
     'clas_net': 'OneVectorCGPNet',  # do not change
     'clas_cgp': 'OneExpOneOutCGPLayer',  # do not change
     'optim': 'Newton',  # Newton-Rapson optimization method do not change
-    'n_rows': 10,  # rows of function nodes in each CGP
-    'n_cols': 10,  # cols of function nodes in each CGP
+    'n_rows': 5,  # rows of function nodes in each CGP
+    'n_cols': 5,  # cols of function nodes in each CGP
     'levels_back': None,
     'function_set': default_functions,
     'n_eph': 1,  # number of constant added in each CGP
