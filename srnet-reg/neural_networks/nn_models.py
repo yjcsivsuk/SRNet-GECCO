@@ -107,7 +107,5 @@ NN_MAP = {
     'feynman2': MLP2(5, 1, 3),
     'feynman3': MLP2(2, 1, 3),
     'feynman4': MLP2(5, 1, 5),
-    'feynman5': MLP3(5, 1, 5),
-    'adult': MLP(14, 2, [600, 600, 600]),
-    'agaricus_lepiota': MLP3(22, 2, 600)
+    'feynman5': MLP3(5, 1, 5)
 }
