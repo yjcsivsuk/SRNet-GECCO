@@ -271,7 +271,7 @@ def standard_data(X):
     features_std = np.where(features_std != 0, features_std, 1.)
     return (X - features_mean) / features_std
 
-
+# 保存个体中的各个参数，为了在主函数中写入日志
 def individual_to_dict(indiv, var_names=None):
     end_exp = pretty_net_exprs(indiv, var_names)
     expressions = indiv.get_cgp_expressions()
@@ -284,7 +284,8 @@ def individual_to_dict(indiv, var_names=None):
 
     indiv_dict = {'final_expression': str(end_exp),
                   'fitness': (indiv.fitness, indiv.fitness_list),
-                  'expressions': str(expressions)
+                  'expressions': str(expressions),
+                  'weights': (indiv.get_ws())
                   }
     return indiv_dict
 

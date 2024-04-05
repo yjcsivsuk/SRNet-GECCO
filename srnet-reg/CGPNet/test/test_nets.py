@@ -11,6 +11,7 @@ from CGPNet.nets import MulExpCGPLayer, OneExpCGPLayer, OneVectorCGPNet, OneExpO
 from CGPNet.params import CGPParameters, NetParameters
 from CGPNet.utils import pretty_net_exprs
 from data_utils import io
+import numpy as np
 
 
 def _print_net(net, x):
@@ -47,6 +48,7 @@ def test_net_expression():
     print(net.get_cgp_expressions())
 
     print('net ws:')
+    # [print(tensor.numpy()) for tensor in net.get_ws()]
     print(net.get_ws())
 
     print('new get expressions:')
@@ -201,8 +203,8 @@ def test():
 if __name__ == '__main__':
     # test_net()
     # test_layer_torch()
-    test_net_torch()
-    # test_net_expression()
+    # test_net_torch()
+    test_net_expression()
     # test_OneLinearCGPNet_OneExp()
     # test_parameters()
     # test()

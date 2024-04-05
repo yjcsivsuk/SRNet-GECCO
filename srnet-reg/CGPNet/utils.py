@@ -149,7 +149,7 @@ def pretty_net_exprs(net, var_names=None):
             exprs = cgp.get_expressions(input_vars=exprs)
             bias = linear.get_bias()
             if isinstance(bias, int):
-                exprs = sp.Matrix(exprs) * linear.get_weight()
+                exprs = sp.Matrix(exprs) * linear.get_weight()  # exprs[0]代表第0个神经元
             else:
                 exprs = sp.Matrix(exprs) * linear.get_weight() + bias.reshape(1, -1)
     elif net.__class__.__name__ == 'LinearOutputCGPNet':
