@@ -281,11 +281,10 @@ def individual_to_dict(indiv, var_names=None):
             expressions.append(linear_layer_expression(indiv.neurons[-2], last_nn.get_weight(), last_nn.get_bias()))
         else:
             expressions.append(linear_layer_expression(indiv.neurons[-2], last_nn.get_weight()))
-
+    # weights，bias，constants，genes等参数不知道如何添加到日志中去
     indiv_dict = {'final_expression': str(end_exp),
                   'fitness': (indiv.fitness, indiv.fitness_list),
-                  'expressions': str(expressions),
-                  'weights': (indiv.get_ws())
+                  'expressions': str(expressions)
                   }
     return indiv_dict
 
