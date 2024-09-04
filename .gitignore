@@ -1,1 +1,12 @@
 .DS_Store
+/.idea
+/.pytest_cache
+/.vscode
+/srnet-reg/__pycache__
+/srnet-reg/.idea
+/srnet-reg/CGPNet/__pycache__
+/srnet-reg/neural_networks/__pycache__
+/srnet-clas/__pycache__
+/srnet-clas/CGPNet/__pycache__
+/srnet-clas/data_utils/__pycache__
+/srnet-clas/neural_networks/__pycache__
